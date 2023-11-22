@@ -1,35 +1,75 @@
 <html>
 
-<body>
-    <div id="mostrar" style="display: none;">
-        <p id="natela"></p>
+<style type="text/css">
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        /* Centraliza horizontalmente */
+        align-items: center;
+        /* Centraliza verticalmente */
+    }
+
+    #config {
+        background-color: #e5e5e5;
+        margin: 10;
+        padding: 10;
+        border-radius: 5%;
+        border: 2px solid #333;
+    }
+
+    p {
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        padding-bottom: 10px;
+    }
+
+</style>
+
+<body onload="document.getElementById('btnstart').focus()">
+    <div id="mostrar" style="display: none;">        
         <canvas id="myCanvas" width="800" height="800"></canvas>
-        <br/>
-        <input type="button" onClick=" window.location.reload(true);" value="Reiniciar"/>
+        
+        <p id="natela"></p>
+        <p>
+            <input type="button" onClick="window.location.reload(true);" value="Restart"/>
+        </p>
     </div>
 
     <div id="config">
         <p>
-            Operações:<br />
-            <textarea rows="10" id="operacoes"></textarea><br />            
+            Arithmetic Operations:<br />
+            <textarea rows="10" id="operacoes"></textarea><br />
         </p>
-        <p>                    
-            Limite:</br>
-            <input type="text" name="limite" id="limite" value="40" /><br />
-            <input type="button" onClick="gerarOperaces()" value="Gerar" />
+        <p>
+            Max Value:</br>
+            <input type="text" name="limite" id="limite" value="40" />
         </p>
-
+        <p>
+            <input type="button" onClick="gerarOperaces()" value="Random Generation" />
+        </p>
         <p>
             Delay:</br>
-            <input type="text" name="delay" id="delay" value="3" /><br />            
-        </p>        
-        <input type="button" onClick="iniciar()" value="Iniciar" />
-    </div>    
-    
+            <input type="text" name="delay" id="delay" value="2" />
+        </p>
+        <p>
+            <input type="button" id="btnstart" onClick="iniciar()" value="Start" />
+        </p>
+    </div>
+
 
     <script>
         function drawBalls(numberOfBalls) {
             const canvas = document.getElementById('myCanvas');
+
+            canvas.width = window.innerWidth * 0.90;
+            canvas.height = window.innerHeight * 0.90;
+            canvas.style.align = "center";
+
             const ctx = canvas.getContext('2d');
             const ballRadius = 25; // Metade de 50px
             let balls = [];
@@ -66,12 +106,13 @@
 
         function generateMathOperation() {
             const maxResult = parseInt(document.getElementById("limite").value);
-            console.log(maxResult)
+
+            max_num = maxResult*2
             let num1, num2, operation, result;
 
             do {
-                num1 = Math.floor(Math.random() * 41); // Números de 0 a 40
-                num2 = Math.floor(Math.random() * 41); // Números de 0 a 40
+                num1 = Math.floor(Math.random() * max_num); // Números de 0 a 40
+                num2 = Math.floor(Math.random() * max_num); // Números de 0 a 40
                 const operations = ['+', '-', '*'];
                 operation = operations[Math.floor(Math.random() * operations.length)];
                 symbol = "";
@@ -97,7 +138,10 @@
         function gerarOperaces() {
             let resultado = "";
             for (let i = 0; i < 10; i++) {
-                resultado += generateMathOperation() + "\n"
+                resultado += generateMathOperation()
+                if (i < 9) {
+                    resultado += "\n";
+                }
             }
             document.getElementById("operacoes").innerHTML = resultado
 
@@ -148,21 +192,21 @@
                     const resultado = match[4];
 
                     clearCanvas();
-                    await sleep(delay); 
+                    await sleep(500);
 
                     natela.innerHTML = num1;
                     drawBalls(num1);
-                    await sleep(delay); 
-                    
+                    await sleep(delay);
+
                     natela.innerHTML = operator;
                     drawText(operator);
                     await sleep(delay);
                     natela.innerHTML = num2;
-                    drawBalls(num2);                    
+                    drawBalls(num2);
                     await sleep(delay);
                     natela.innerHTML = "=";
                     drawText("=");
-                    await sleep(delay);                    
+                    await sleep(delay);
                     natela.innerHTML = resultado;
                     drawBalls(resultado);
                     await sleep(delay);
@@ -174,6 +218,7 @@
                 }
             }
         }
+        gerarOperaces();
     </script>
 </body>
 
