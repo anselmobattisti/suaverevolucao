@@ -1,27 +1,30 @@
 <html>
 
 <body>
+    <div id="mostrar" style="display: none;">
+        <p id="natela"></p>
+        <canvas id="myCanvas" width="900" height="400"></canvas>
+        <input type="button" onClick=" window.location.reload(true);" value="Reiniciar"/>
+    </div>
 
-    <canvas id="myCanvas" width="900" height="400"></canvas>
+    <div id="config">
+        <p>
+            Operações:<br />
+            <textarea rows="10" id="operacoes"></textarea><br />            
+        </p>
+        <p>                    
+            Limite:</br>
+            <input type="text" name="limite" id="limite" value="40" /><br />
+            <input type="button" onClick="gerarOperaces()" value="Gerar" />
+        </p>
 
-    <p>
-        Operações:<br />
-        <textarea rows="10" id="operacoes"></textarea><br />
-        Limite:</br>
-        <input type="text" name="limite" id="limite" value="40" /><br />
-        <input type="button" onClick="gerarOperaces()" value="Gerar" />
-    </p>
-
-    <p>
-        Delay:</br>
-        <input type="text" name="delay" id="delay" value="3" /><br />
+        <p>
+            Delay:</br>
+            <input type="text" name="delay" id="delay" value="3" /><br />            
+        </p>        
         <input type="button" onClick="iniciar()" value="Iniciar" />
-    </p>
-
-    <p>
-        Na tela:</br>
-        <input type="text" name="natela" id="natela" value="" />
-    </p>
+    </div>    
+    
 
     <script>
         function drawBalls(numberOfBalls) {
@@ -124,6 +127,8 @@
         }
 
         async function iniciar() {
+            document.getElementById("config").style.display = "none";
+            document.getElementById("mostrar").style.display = "block";
             clearCanvas();
             natela = document.getElementById("natela")
             delay = parseInt(document.getElementById("delay").value) * 1000
@@ -144,22 +149,23 @@
                     clearCanvas();
                     await sleep(delay); 
 
-                    natela.value = num1;
+                    natela.innerHTML = num1;
                     drawBalls(num1);
                     await sleep(delay); 
                     
-                    natela.value = operator;
+                    natela.innerHTML = operator;
                     drawText(operator);
                     await sleep(delay);
-                    natela.value = num2;
+                    natela.innerHTML = num2;
                     drawBalls(num2);                    
                     await sleep(delay);
-                    natela.value = "=";
+                    natela.innerHTML = "=";
                     drawText("=");
                     await sleep(delay);                    
-                    natela.value = resultado;
+                    natela.innerHTML = resultado;
                     drawBalls(resultado);
                     await sleep(delay);
+                    natela.innerHTML = "";
 
                     console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
                 } else {
