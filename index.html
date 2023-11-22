@@ -2,162 +2,172 @@
 
 <body>
 
-<canvas id="myCanvas" width="900" height="400"></canvas>
+    <canvas id="myCanvas" width="900" height="400"></canvas>
 
-<p>
-Operações:<br/>
-<textarea rows="10" id="operacoes">
-</textarea>
-</p>
+    <p>
+        Operações:<br />
+        <textarea rows="10" id="operacoes"></textarea><br />
+        Limite:</br>
+        <input type="text" name="limite" id="limite" value="40" /><br />
+        <input type="button" onClick="gerarOperaces()" value="Gerar" />
+    </p>
 
-<p>
-Delay:</br>
-<input type="text" name="delay" id="delay" value="3"/>
-</p>
+    <p>
+        Delay:</br>
+        <input type="text" name="delay" id="delay" value="3" /><br />
+        <input type="button" onClick="iniciar()" value="Iniciar" />
+    </p>
 
-<p>
-<input type="button" onClick="iniciar()" value="Iniciar"/>
-</p>
+    <p>
+        Na tela:</br>
+        <input type="text" name="natela" id="natela" value="" />
+    </p>
 
+    <script>
+        function drawBalls(numberOfBalls) {
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+            const ballRadius = 25; // Metade de 50px
+            let balls = [];
+            clearCanvas();
 
-<p>
-Na tela:</br>
-<input type="text" name="natela" id="natela" value=""/>
-</p>
+            function isSpaceOccupied(x, y) {
+                return balls.some(ball => {
+                    const dx = ball.x - x;
+                    const dy = ball.y - y;
+                    return Math.sqrt(dx * dx + dy * dy) < ballRadius * 2;
+                });
+            }
 
-<script>
-function drawBalls(numberOfBalls) {
-    const canvas = document.getElementById('myCanvas');
-    const ctx = canvas.getContext('2d');
-    const ballRadius = 25; // Metade de 50px
-    let balls = [];
-    clearCanvas();
+            function drawBall(x, y) {
+                ctx.beginPath();
+                ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+                ctx.closePath();
+            }
 
-    function isSpaceOccupied(x, y) {
-        return balls.some(ball => {
-            const dx = ball.x - x;
-            const dy = ball.y - y;
-            return Math.sqrt(dx * dx + dy * dy) < ballRadius * 2;
-        });
-    }
+            for (let i = 0; i < numberOfBalls; i++) {
+                let x, y, collision;
+                do {
+                    x = Math.random() * ((canvas.width - 20) - ballRadius * 2) + (ballRadius + 20);
+                    y = Math.random() * ((canvas.height - 20) - ballRadius * 2) + (ballRadius + 20);
+                    collision = isSpaceOccupied(x, y);
+                } while (collision);
 
-    function drawBall(x, y) {
-        ctx.beginPath();
-        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.closePath();
-    }
-
-    for (let i = 0; i < numberOfBalls; i++) {
-        let x, y, collision;
-        do {
-            x = Math.random() * ((canvas.width - 20) - ballRadius * 2) + (ballRadius + 20);
-            y = Math.random() * ((canvas.height - 20)- ballRadius * 2) + (ballRadius + 20);
-            collision = isSpaceOccupied(x, y);
-        } while (collision);
-
-        drawBall(x, y);
-        balls.push({ x, y });
-    }
-}
-
-function generateMathOperation() {
-    const maxResult = 40;
-    let num1, num2, operation, result;
-
-    do {
-        num1 = Math.floor(Math.random() * 41); // Números de 0 a 40
-        num2 = Math.floor(Math.random() * 41); // Números de 0 a 40
-        const operations = ['+', '-', '*'];
-        operation = operations[Math.floor(Math.random() * operations.length)];
-	symbol = "";
-        switch (operation) {
-            case '+':
-                result = num1 + num2;
-                symbol = "+";
-                break;
-            case '-':
-                result = num1 - num2;
-                symbol = "-";                
-                break;
-            case '*':
-                result = num1 * num2;
-                symbol = "*";                
-                break;
+                drawBall(x, y);
+                balls.push({ x, y });
+            }
         }
-    } while (result > maxResult || result < 0);
 
-    return `${num1} ${symbol} ${num2} = ${result}`;
-}
-	
-	function gerarOperaces(){
-		let resultado = "";
-		for (let i = 0; i < 10; i++) {
-			resultado += generateMathOperation() + "\n"
-		}
-		document.getElementById("operacoes").innerHTML = resultado
+        function generateMathOperation() {
+            const maxResult = parseInt(document.getElementById("limite").value);
+            console.log(maxResult)
+            let num1, num2, operation, result;
 
-	}
+            do {
+                num1 = Math.floor(Math.random() * 41); // Números de 0 a 40
+                num2 = Math.floor(Math.random() * 41); // Números de 0 a 40
+                const operations = ['+', '-', '*'];
+                operation = operations[Math.floor(Math.random() * operations.length)];
+                symbol = "";
+                switch (operation) {
+                    case '+':
+                        result = num1 + num2;
+                        symbol = "+";
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        symbol = "-";
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        symbol = "*";
+                        break;
+                }
+            } while (result > maxResult || result < 0);
 
-	// Certifique-se de ter um elemento canvas no HTML:
-	// <canvas id="myCanvas" width="800" height="800"></canvas>
+            return `${num1} ${symbol} ${num2} = ${result}`;
+        }
 
-	// Chame a função com o número desejado de bolas
+        function gerarOperaces() {
+            let resultado = "";
+            for (let i = 0; i < 10; i++) {
+                resultado += generateMathOperation() + "\n"
+            }
+            document.getElementById("operacoes").innerHTML = resultado
 
-	gerarOperaces();
-	
-	function clearCanvas() {
-	    const canvas = document.getElementById('myCanvas');
-	    const ctx = canvas.getContext('2d');
-	    ctx.clearRect(0, 0, canvas.width, canvas.height);
-	}
+        }
 
-	
-   function iniciar(){
-   	clearCanvas();
-   	natela = document.getElementById("natela")	
-   	delay = parseInt(document.getElementById("delay").value)*1000	
-	const regex = /(\d+)\s*([+*-])\s*(\d+)\s*=\s*(\d+)/;
+        function clearCanvas() {
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
 
-	
-	    const textarea = document.getElementById('operacoes');
-	    const lines = textarea.value.split('\n');
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
-	    for (let i = 0; i < lines.length; i++) {
+        function drawText(text) {
+            clearCanvas();
+            const canvas = document.getElementById('myCanvas');
+            const ctx = canvas.getContext('2d');
 
-	
-		let match = lines[i].match(regex);
+            ctx.font = '80px Arial'; // Define o tamanho e o tipo da fonte
+            ctx.fillStyle = 'red'; // Define a cor do texto
+            // Centraliza o texto no canvas
+            const textWidth = ctx.measureText(text).width;
+            const x = (canvas.width - textWidth) / 2;
+            const y = canvas.height / 2;
+            ctx.fillText(text, x, y); // Escreve o texto no canvas
+        }
 
-		if (match) {
-		    const num1 = match[1];
-		    const operator = match[2];
-		    const num2 = match[3];
-		    const resultado = match[4];
-		    
-		    natela.value=num1;
+        async function iniciar() {
+            clearCanvas();
+            natela = document.getElementById("natela")
+            delay = parseInt(document.getElementById("delay").value) * 1000
+            const regex = /(\d+)\s*([+*-])\s*(\d+)\s*=\s*(\d+)/;
+            const textarea = document.getElementById('operacoes');
+            const lines = textarea.value.split('\n');
 
-		    setTimeout(() => {
-			drawBalls(num1);
-		    }, (i+1000)*delay);
-		    
+            for (let i = 0; i < lines.length; i++) {
 
-		    setTimeout(() => {
-			drawBalls(num2);
-		    }, (i+1000)*delay);
+                let match = lines[i].match(regex);
 
-		    setTimeout(() => {
-			drawBalls(resultado);
-		    }, (i+1000)*delay);
-		    
-		    console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
-		} else {
-		    console.log("Nenhum padrão correspondente encontrado.");
-		}
-	} 
-   }
-</script>
+                if (match) {
+                    const num1 = match[1];
+                    const operator = match[2];
+                    const num2 = match[3];
+                    const resultado = match[4];
 
+                    clearCanvas();
+                    await sleep(delay); 
+
+                    natela.value = num1;
+                    drawBalls(num1);
+                    await sleep(delay); 
+                    
+                    natela.value = operator;
+                    drawText(operator);
+                    await sleep(delay);
+                    natela.value = num2;
+                    drawBalls(num2);                    
+                    await sleep(delay);
+                    natela.value = "=";
+                    drawText("=");
+                    await sleep(delay);                    
+                    natela.value = resultado;
+                    drawBalls(resultado);
+                    await sleep(delay);
+
+                    console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
+                } else {
+                    console.log("Nenhum padrão correspondente encontrado.");
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
