@@ -1,13 +1,15 @@
-# Suave Revolução
+# Gentle Revolution
 
-A Suave Revolução de Glenn Doman é uma abordagem inovadora na educação e desenvolvimento infantil, concebida por Glenn Doman, fundador dos Institutos para o Desenvolvimento do Potencial Humano. Esta metodologia, desenvolvida na segunda metade do século 20, é baseada na crença de que as crianças têm uma capacidade inata e impressionante para aprender, especialmente nos primeiros anos de vida. Doman defendia que, ao fornecer estímulos educacionais apropriados, os pais e educadores podem significativamente acelerar e melhorar o desenvolvimento cognitivo e físico das crianças. 
+Glenn Doman's Gentle Revolution is an innovative approach to education and child development, conceived by Glenn Doman, founder of the Institutes for the Development of Human Potential. This methodology, developed in the second half of the 20th century, is based on the belief that children have an innate and impressive capacity to learn, especially in the first years of life. Doman argued that by providing appropriate educational stimuli, parents and educators can significantly accelerate and improve children's cognitive and physical development.
 
-Sua abordagem inclui técnicas como a apresentação precoce de informações em forma de flashcards, exercícios de mobilidade e programas de leitura precoce. Ao contrário de métodos educacionais tradicionais, que muitas vezes começam na idade escolar, a Suave Revolução de Doman enfatiza a importância do aprendizado desde o nascimento até os seis anos, um período que ele considerava crucial para o desenvolvimento cerebral. 
+His approach includes techniques such as early presentation of information in the form of flashcards, mobility exercises and early reading programs. Unlike traditional educational methods, which often begin at school age, Doman's Gentle Revolution emphasizes the importance of learning from birth to age six, a period he considered crucial for brain development.
 
-Embora suas ideias tenham sido inicialmente controversas e diferem de muitos paradigmas educacionais convencionais, elas ganharam uma considerável base de seguidores e influenciaram diversas práticas educacionais modernas, especialmente no campo da educação precoce.
+Although his ideas were initially controversial and differed from many conventional educational paradigms, they gained a considerable following and influenced many modern educational practices, especially in the field of early education.
 
-# O que é essa ferramenta?
+# What is this tool?
 
-Esse script cria uma página web interativa que permite aos usuários gerar operações matemáticas aleatórias e visualizá-las de uma maneira única no canvas. 
+This script creates an interactive web page that allows users to generate random mathematical operations and visualize them in a unique way on the canvas.
 
+# Example of use
 
+https://www.battisti.com.br/math/
