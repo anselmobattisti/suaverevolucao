@@ -4,16 +4,18 @@
     html,
     body {
         height: 100%;
-        margin: 0;
-        padding: 0;
+        margin: 0px;
+        padding: 0px;
         display: flex;
         justify-content: center;
         /* Centraliza horizontalmente */
         align-items: center;
         /* Centraliza verticalmente */
+        font-size: 18px;
     }
 
     #myCanvas {
+        margin-top: 20px;
         border: 2px solid black;
     }
 
@@ -33,7 +35,23 @@
     }
 
     #natela {
-        color: #b5b5b5
+        color: #b5b5b5;
+        width: 100%;
+        text-align: center;
+    }
+
+    input[type=button] {
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+    }
+
+    input[type=number] {
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+        padding: 5px;
     }
 </style>
 
@@ -43,7 +61,7 @@
 
         <p id="natela">.</p>
         <p>
-            <input type="button" onClick="window.location.reload(true);" value="Restart" />
+            <input type="button" id="back" onClick="window.location.reload(true);" value="Back" />
         </p>
     </div>
 
@@ -57,13 +75,13 @@
         </p>
         <p>
             Max Operation Value:</br>
-            <input type="number" name="limite" id="limite" value="40" />
+            <input type="number" name="limite" id="limite" value="20" />
         </p>
 
         <p>
             Num Operations:</br>
-            <input type="number" name="numop" id="numop" value="10" />
-        </p>        
+            <input type="number" name="numop" id="numop" value="5" />
+        </p>
 
         <p>
             <input type="button" onClick="gerarOperaces()" value="Random Generation" />
@@ -78,14 +96,15 @@
             <input type="number" name="delay" id="delay" value="2" />
         </p>
         <p>
-            <input type="button" id="btnstart" onClick="iniciar()" value="Start" />
+            <input type="button" id="btnstart" onClick="iniciar()" value="Start"
+                style="background-color: greenyellow;" />
         </p>
     </div>
 
 
     <script>
         function drawBalls(numberOfBalls) {
-            const canvas = document.getElementById('myCanvas');            
+            const canvas = document.getElementById('myCanvas');
             const ctx = canvas.getContext('2d');
             const ballRadius = 25; // Metade de 50px
             let balls = [];
@@ -140,8 +159,9 @@
             if (document.getElementById("mul").checked) {
                 operations.push("*");
                 if (num2 == 0) {
-                            num2 = 1;
-                        } }
+                    num2 = 1;
+                }
+            }
 
             if (document.getElementById("div").checked) {
                 operations.push("/");
@@ -159,6 +179,13 @@
                         symbol = "+";
                         break;
                     case '-':
+
+                        if (num1 < num2) {
+                            aux = num1
+                            num1 = num2
+                            num2 = aux
+                        }
+
                         result = num1 - num2;
                         symbol = "-";
                         break;
@@ -186,7 +213,7 @@
 
             for (let i = 0; i < numop; i++) {
                 resultado += generateMathOperation()
-                if (i < (numop-1)) {
+                if (i < (numop - 1)) {
                     resultado += "\n";
                 }
             }
@@ -218,8 +245,9 @@
             ctx.fillText(text, x, y); // Escreve o texto no canvas
         }
 
-        async function iniciar() {
-
+        async function iniciar() {            
+            toggleFullScreen();
+            
             const canvas = document.getElementById('myCanvas');
             canvas.width = window.innerWidth * 0.90;
             canvas.height = window.innerHeight * 0.90;
@@ -230,6 +258,9 @@
             clearCanvas();
             natela = document.getElementById("natela")
             delay = parseInt(document.getElementById("delay").value) * 1000
+
+            document.getElementById("back").focus()
+
             const regex = /(\d+)\s*([+*-])\s*(\d+)\s*=\s*(\d+)/;
             const textarea = document.getElementById('operacoes');
             const lines = textarea.value.split('\n');
@@ -263,11 +294,37 @@
                     natela.innerHTML = resultado;
                     drawBalls(resultado);
                     await sleep(delay);
-                    natela.innerHTML = "";
+                    natela.innerHTML = ".";
 
                     console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
                 } else {
                     console.log("Nenhum padrão correspondente encontrado.");
+                }
+            }
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                // Solicita que o documento entre em tela cheia
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+                    document.documentElement.msRequestFullscreen();
+                }
+            } else {
+                // Sai do modo tela cheia
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
                 }
             }
         }
