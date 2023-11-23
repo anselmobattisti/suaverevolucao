@@ -27,31 +27,44 @@
         padding: 0;
         padding-bottom: 10px;
     }
-
 </style>
 
 <body onload="document.getElementById('btnstart').focus()">
-    <div id="mostrar" style="display: none;">        
+    <div id="mostrar" style="display: none;">
         <canvas id="myCanvas" width="800" height="800"></canvas>
-        
+
         <p id="natela"></p>
         <p>
-            <input type="button" onClick="window.location.reload(true);" value="Restart"/>
+            <input type="button" onClick="window.location.reload(true);" value="Restart" />
         </p>
     </div>
 
     <div id="config">
         <p>
-            Arithmetic Operations:<br />
-            <textarea rows="10" id="operacoes"></textarea><br />
+            Kind:<br />
+            <input type="checkbox" id="mul" value="*" checked>*
+            <input type="checkbox" id="sub" value="-" checked>-
+            <input type="checkbox" id="soma" value="+" checked>+
+            <input type="checkbox" id="div" value="/" checked>/
         </p>
         <p>
-            Max Value:</br>
+            Max Operation Value:</br>
             <input type="text" name="limite" id="limite" value="40" />
         </p>
+
+        <p>
+            Num Operation:</br>
+            <input type="text" name="numop" id="numop" value="10" />
+        </p>        
+
         <p>
             <input type="button" onClick="gerarOperaces()" value="Random Generation" />
         </p>
+        <p>
+            Arithmetic Operations:<br />
+            <textarea rows="10" id="operacoes"></textarea><br />
+        </p>
+        <hr />
         <p>
             Delay:</br>
             <input type="text" name="delay" id="delay" value="2" />
@@ -107,13 +120,34 @@
         function generateMathOperation() {
             const maxResult = parseInt(document.getElementById("limite").value);
 
-            max_num = maxResult*2
+            max_num = maxResult * 2
+
             let num1, num2, operation, result;
+
+            const operations = [];
+
+            if (document.getElementById("soma").checked) {
+                operations.push("+");
+            }
+
+            if (document.getElementById("sub").checked) {
+                operations.push("-");
+            }
+
+            if (document.getElementById("mul").checked) {
+                operations.push("*");
+                if (num2 == 0) {
+                            num2 = 1;
+                        } }
+
+            if (document.getElementById("div").checked) {
+                operations.push("/");
+            }
 
             do {
                 num1 = Math.floor(Math.random() * max_num); // Números de 0 a 40
                 num2 = Math.floor(Math.random() * max_num); // Números de 0 a 40
-                const operations = ['+', '-', '*'];
+
                 operation = operations[Math.floor(Math.random() * operations.length)];
                 symbol = "";
                 switch (operation) {
@@ -129,6 +163,13 @@
                         result = num1 * num2;
                         symbol = "*";
                         break;
+                    case '/':
+                        if (num2 == 0) {
+                            num2 = 1;
+                        }
+                        result = num1 * num2;
+                        symbol = "/";
+                        break;
                 }
             } while (result > maxResult || result < 0);
 
@@ -136,10 +177,13 @@
         }
 
         function gerarOperaces() {
-            let resultado = "";
-            for (let i = 0; i < 10; i++) {
+            let resultado = ""
+
+            numop = document.getElementById("numop").value
+
+            for (let i = 0; i < numop; i++) {
                 resultado += generateMathOperation()
-                if (i < 9) {
+                if (i < (numop-1)) {
                     resultado += "\n";
                 }
             }
