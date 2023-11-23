@@ -13,6 +13,10 @@
         /* Centraliza verticalmente */
     }
 
+    #myCanvas {
+        border: 2px solid black;
+    }
+
     #config {
         background-color: #e5e5e5;
         margin: 10;
@@ -27,13 +31,17 @@
         padding: 0;
         padding-bottom: 10px;
     }
+
+    #natela {
+        color: #b5b5b5
+    }
 </style>
 
 <body onload="document.getElementById('btnstart').focus()">
     <div id="mostrar" style="display: none;">
-        <canvas id="myCanvas" width="800" height="800"></canvas>
+        <canvas id="myCanvas"></canvas>
 
-        <p id="natela"></p>
+        <p id="natela">.</p>
         <p>
             <input type="button" onClick="window.location.reload(true);" value="Restart" />
         </p>
@@ -77,12 +85,7 @@
 
     <script>
         function drawBalls(numberOfBalls) {
-            const canvas = document.getElementById('myCanvas');
-
-            canvas.width = window.innerWidth * 0.90;
-            canvas.height = window.innerHeight * 0.90;
-            canvas.style.align = "center";
-
+            const canvas = document.getElementById('myCanvas');            
             const ctx = canvas.getContext('2d');
             const ballRadius = 25; // Metade de 50px
             let balls = [];
@@ -216,6 +219,12 @@
         }
 
         async function iniciar() {
+
+            const canvas = document.getElementById('myCanvas');
+            canvas.width = window.innerWidth * 0.90;
+            canvas.height = window.innerHeight * 0.90;
+            canvas.style.align = "center";
+
             document.getElementById("config").style.display = "none";
             document.getElementById("mostrar").style.display = "block";
             clearCanvas();
@@ -236,7 +245,7 @@
                     const resultado = match[4];
 
                     clearCanvas();
-                    await sleep(500);
+                    await sleep(1000);
 
                     natela.innerHTML = num1;
                     drawBalls(num1);
