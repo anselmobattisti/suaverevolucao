@@ -68,10 +68,25 @@
     <div id="config">
         <p>
             Operations Type:<br />
-            <input type="checkbox" id="mul" value="*" checked>*
-            <input type="checkbox" id="sub" value="-" checked>-
-            <input type="checkbox" id="soma" value="+" checked>+
-            <input type="checkbox" id="div" value="/" checked>/
+            <label onclick="disableNum()">
+                <input type="checkbox" id="mul" value="*" checked>*
+            </label>
+
+            <label onclick="disableNum()">
+                <input type="checkbox" id="sub" value="-" checked>-
+            </label>
+
+            <label onclick="disableNum()">
+                <input type="checkbox" id="soma" value="+" checked>+
+            </label>
+
+            <label onclick="disableNum()">
+                <input type="checkbox" id="div" value="/" checked>/
+            </label>
+
+            <label onclick="disableOps()">
+                <input type="checkbox" id="num" value="n">Numbers
+            </label>
         </p>
         <p>
             Max Operation Value:</br>
@@ -103,6 +118,19 @@
 
 
     <script>
+
+        function disableNum() {
+            document.getElementById("num").checked = false
+        }
+
+        function disableOps() {
+            document.getElementById("mul").checked = false
+            document.getElementById("sub").checked = false
+            document.getElementById("div").checked = false
+            document.getElementById("soma").checked = false
+            gerarOperaces()
+        }
+
         function drawBalls(numberOfBalls) {
             const canvas = document.getElementById('myCanvas');
             const ctx = canvas.getContext('2d');
@@ -211,8 +239,15 @@
 
             numop = document.getElementById("numop").value
 
+            const maxResult = parseInt(document.getElementById("limite").value);
+
             for (let i = 0; i < numop; i++) {
-                resultado += generateMathOperation()
+                if (document.getElementById("num").checked == true) {
+                    resultado += Math.floor(Math.random() * maxResult);
+                } else {
+                    resultado += generateMathOperation()
+                }
+
                 if (i < (numop - 1)) {
                     resultado += "\n";
                 }
@@ -245,9 +280,9 @@
             ctx.fillText(text, x, y); // Escreve o texto no canvas
         }
 
-        async function iniciar() {            
+        async function iniciar() {
             toggleFullScreen();
-            
+
             const canvas = document.getElementById('myCanvas');
             canvas.width = window.innerWidth * 0.90;
             canvas.height = window.innerHeight * 0.90;
@@ -298,7 +333,18 @@
 
                     console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
                 } else {
-                    console.log("Nenhum padrão correspondente encontrado.");
+                    const regex = /(\d+)/;
+                    let match2 = lines[i].match(regex);
+                    if (match2) {
+                        natela.innerHTML = match2[1];
+                        drawBalls(match2[1]);
+                        await sleep(delay);
+                        clearCanvas();
+                        natela.innerHTML = " - ";
+                        await sleep(delay);
+                    } else {
+                        console.log("Nenhum padrão correspondente encontrado.");
+                    }
                 }
             }
         }
