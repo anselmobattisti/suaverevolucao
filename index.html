@@ -148,7 +148,7 @@
                 return balls.some(ball => {
                     const dx = ball.x - x;
                     const dy = ball.y - y;
-                    return Math.sqrt(dx * dx + dy * dy) < ballRadius * 2;
+                    return Math.sqrt(dx * dx + dy * dy) < ballRadius * 2.5;
                 });
             }
 
@@ -163,8 +163,8 @@
             for (let i = 0; i < numberOfBalls; i++) {
                 let x, y, collision;
                 do {
-                    x = Math.random() * ((canvas.width - 20) - ballRadius * 2) + (ballRadius + 20);
-                    y = Math.random() * ((canvas.height - 20) - ballRadius * 2) + (ballRadius + 20);
+                    x = Math.random() * ((canvas.width - 40) - ballRadius * 2) + (ballRadius + 20);
+                    y = Math.random() * ((canvas.height - 40) - ballRadius * 2) + (ballRadius + 20);
                     collision = isSpaceOccupied(x, y);
                 } while (collision);
 
@@ -266,13 +266,30 @@
             numop = document.getElementById("numop").value
 
             const maxResult = parseInt(document.getElementById("limite").value);
-
+            
+            results = [-1]
+            resultado = ""
+            let limit = 0
             for (let i = 0; i < numop; i++) {
-                if (document.getElementById("num").checked == true) {
-                    resultado += Math.floor(Math.random() * maxResult);
-                } else {
-                    resultado += generateMathOperation()
+                x = -1
+                while (results.includes(x)) {
+                    if (document.getElementById("num").checked == true) {                    
+                        min = parseInt(document.getElementById("rangemin").value)
+                        max = parseInt(document.getElementById("rangemax").value)
+                        x = Math.floor(Math.random() * (max - min + 1)) + min;                    
+                    } else {
+                        x = generateMathOperation()
+                    }                    
+                    limit += 1
+                    if (limit == 100) {
+                        document.getElementById("operacoes").innerHTML = "The range is lower than the Qtd"
+                        return
+                    }
                 }
+
+                resultado += x
+
+                results.push(x)
 
                 if (i < (numop - 1)) {
                     resultado += "\n";
