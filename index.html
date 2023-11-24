@@ -38,6 +38,8 @@
         color: #b5b5b5;
         width: 100%;
         text-align: center;
+        margin: 10px;
+        padding: 0px;
     }
 
     input[type=button] {
@@ -251,6 +253,16 @@
         function gerarOperaces() {
             let resultado = ""
 
+            if (
+                document.getElementById("mul").checked == false &&
+                document.getElementById("sub").checked == false &&
+                document.getElementById("soma").checked == false &&
+                document.getElementById("div").checked == false &&
+                document.getElementById("num").checked == false
+            ) {
+                document.getElementById("soma").checked = true
+            }
+
             numop = document.getElementById("numop").value
 
             const maxResult = parseInt(document.getElementById("limite").value);
@@ -266,6 +278,7 @@
                     resultado += "\n";
                 }
             }
+
             document.getElementById("operacoes").innerHTML = resultado
 
         }
