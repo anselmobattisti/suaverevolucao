@@ -88,14 +88,18 @@
                 <input type="checkbox" id="num" value="n">Numbers
             </label>
         </p>
+
         <p>
-            Max Operation Value:</br>
-            <input type="number" name="limite" id="limite" value="20" />
+            Range:
+            <input type="number" name="rangemin" id="rangemin" value="1" style="width: 80px"/> to 
+            <input type="number" name="rangemax" id="rangemax" value="40" style="width: 80px;"/>
         </p>
 
         <p>
-            Num Operations:</br>
-            <input type="number" name="numop" id="numop" value="5" />
+            Max Result:
+            <input type="number" name="limite" id="limite" value="20" style="width: 80px;"/>
+            Qtd:
+            <input type="number" name="numop" id="numop" value="5" style="width: 80px"/>
         </p>
 
         <p>
@@ -103,7 +107,7 @@
         </p>
         <p>
             Arithmetic Operations:<br />
-            <textarea rows="10" id="operacoes"></textarea><br />
+            <textarea rows="10" id="operacoes" style="width: 100%;"></textarea><br />
         </p>
         <hr />
         <p>
@@ -167,6 +171,11 @@
             }
         }
 
+        function getRandomNumber(min, max) {
+            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            return randomNumber
+        }
+
         function generateMathOperation() {
             const maxResult = parseInt(document.getElementById("limite").value);
 
@@ -195,9 +204,14 @@
                 operations.push("/");
             }
 
+            rangemin = parseInt(document.getElementById("rangemin").value)
+            rangemax = parseInt(document.getElementById("rangemax").value)
+
             do {
-                num1 = Math.floor(Math.random() * max_num); // Números de 0 a 40
-                num2 = Math.floor(Math.random() * max_num); // Números de 0 a 40
+                
+                num1 = 
+                num1 = getRandomNumber(rangemin, rangemax)
+                num2 = getRandomNumber(rangemin, rangemax)
 
                 operation = operations[Math.floor(Math.random() * operations.length)];
                 symbol = "";
@@ -282,6 +296,7 @@
 
         async function iniciar() {
             toggleFullScreen();
+            
 
             const canvas = document.getElementById('myCanvas');
             canvas.width = window.innerWidth * 0.90;
@@ -293,6 +308,8 @@
             clearCanvas();
             natela = document.getElementById("natela")
             delay = parseInt(document.getElementById("delay").value) * 1000
+
+            await sleep(delay);
 
             document.getElementById("back").focus()
 
@@ -330,18 +347,16 @@
                     drawBalls(resultado);
                     await sleep(delay);
                     natela.innerHTML = ".";
-
-                    console.log(`Número 1: ${num1}, Operador: ${operator}, Número 2: ${num2}`);
                 } else {
                     const regex = /(\d+)/;
                     let match2 = lines[i].match(regex);
                     if (match2) {
-                        natela.innerHTML = match2[1];
-                        drawBalls(match2[1]);
+                        natela.innerHTML = match2[1];                                                
+                        drawBalls(match2[1]);                        
                         await sleep(delay);
                         clearCanvas();
+                        await sleep(delay/2);
                         natela.innerHTML = " - ";
-                        await sleep(delay);
                     } else {
                         console.log("Nenhum padrão correspondente encontrado.");
                     }
