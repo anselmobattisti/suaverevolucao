@@ -61,8 +61,9 @@
         height: 30px;
         text-align: center;
         font-size: 14px;
-        margin: 2px;
+        margin-left: 10px;
     }
+
 </style>
 
 <body onload="document.getElementById('btnstart').focus()">
@@ -310,7 +311,6 @@
                         symbol = "/";
                         break;
                 }                
-                console.log(continueLoop)
             } while (continueLoop == false || result > maxResult);
             return `${num1} ${symbol} ${num2} = ${result}`;
         }
@@ -399,6 +399,7 @@
         }
 
         async function iniciar() {
+            saveStatus();
             toggleFullScreen();
 
             const canvas = document.getElementById('myCanvas');
@@ -414,7 +415,7 @@
 
             await sleep(delay);
 
-            const regex = /(\d+)\s*([+*-])\s*(\d+)\s*=\s*(\d+)/;
+            const regex = /(\d+)\s*([+*-\\])\s*(\d+)\s*=\s*(\d+)/;
             const textarea = document.getElementById('operacoes');
             const lines = textarea.value.split('\n');
 
@@ -492,7 +493,90 @@
                 }
             }
         }
+
+        function saveStatus(){
+            localStorage.setItem("mul", document.getElementById("mul").checked);
+            localStorage.setItem("div", document.getElementById("div").checked);
+            localStorage.setItem("sub", document.getElementById("sub").checked);
+            localStorage.setItem("soma", document.getElementById("soma").checked);
+            localStorage.setItem("num", document.getElementById("num").checked);
+
+            localStorage.setItem("rangemin", document.getElementById("rangemin").value);
+            localStorage.setItem("rangemax", document.getElementById("rangemax").value);
+            localStorage.setItem("numop", document.getElementById("numop").value);
+            localStorage.setItem("delay", document.getElementById("delay").value);
+        }
+
+        function loadStatus(){
+            const mul = localStorage.getItem("mul");
+            const div = localStorage.getItem("div");
+            const sub = localStorage.getItem("sub");
+            const soma = localStorage.getItem("soma");
+            const num = localStorage.getItem("num");
+            const rangemin = localStorage.getItem("rangemin");
+            const rangemax = localStorage.getItem("rangemax");
+            const numop = localStorage.getItem("numop");
+            const delay = localStorage.getItem("delay");
+
+            
+            if (eval(mul)){
+                document.getElementById("mul").checked = true
+            } else {
+                document.getElementById("mul").checked = false
+            }
+
+            if (eval(div)){
+                document.getElementById("div").checked = true
+            } else {
+                document.getElementById("div").checked = false
+            }
+
+            if (eval(sub)){
+                document.getElementById("sub").checked = true
+            } else {
+                document.getElementById("sub").checked = false
+            }            
+
+            if (eval(soma)){
+                document.getElementById("soma").checked = true
+            } else {
+                document.getElementById("soma").checked = false
+            }
+
+            if (eval(num)){
+                document.getElementById("num").checked = true
+            } else {
+                document.getElementById("num").checked = false
+            }
+            
+            if (rangemin) {
+                document.getElementById("rangemin").value = parseInt(rangemin)
+            } else {
+                document.getElementById("rangemin").value = 1
+            }
+            
+            if (rangemax) {
+                document.getElementById("rangemax").value = parseInt(rangemax)
+            } else {
+                document.getElementById("rangemax").value = 40
+            }
+
+            if (numop) {
+                document.getElementById("numop").value = parseInt(numop)
+            } else {
+                document.getElementById("numop").value = 5
+            }
+
+            if (delay) {
+                document.getElementById("delay").value = parseInt(delay)
+            } else {
+                document.getElementById("delay").value = 2
+            }
+        }
+
         gerarOperaces();
+
+        loadStatus();
     </script>
 </body>
 
