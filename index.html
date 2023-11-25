@@ -42,18 +42,26 @@
         padding: 0px;
     }
 
-    input[type=button] {
+    /* input[type=button] {
         font-size: 18px;
         text-align: center;
         width: 100%;
         padding: 10px;
-    }
+    } */
 
     input[type=number] {
-        font-size: 18px;
+        font-size: 24px;
         text-align: center;
-        width: 100%;
-        padding: 5px;
+        width: 60px;        
+    }
+
+    .botao-container input[type=button] {
+        padding:2px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        font-size: 14px;
+        margin: 2px;
     }
 </style>
 
@@ -63,18 +71,20 @@
 
         <p id="natela">.</p>
         <p>
-            <input type="button" id="back" onClick="window.location.reload(true);" value="Back" />
+            <input type="button" id="back" onClick="window.location.reload(true);" value="Back" 
+            style="width: 100%; font-size: 24px;"
+            />
         </p>
     </div>
 
     <div id="config">
         <p>
             Operations Type:<br />
-            <label onclick="disableNum()">
+            <label onclick="disableNum()" style="vertical-align: middle;">
                 <input type="checkbox" id="mul" value="*" checked>*
             </label>
 
-            <label onclick="disableNum()">
+            <label onclick="disableNum()" style="vertical-align: middle;">
                 <input type="checkbox" id="sub" value="-" checked>-
             </label>
 
@@ -92,33 +102,78 @@
         </p>
 
         <p>
-            Range:
-            <input type="number" name="rangemin" id="rangemin" value="1" style="width: 80px"/> to 
-            <input type="number" name="rangemax" id="rangemax" value="40" style="width: 80px;"/>
+            <div style="float: left;">
+                Min:
+                <input type="number" name="rangemin" id="rangemin" value="1" min="0" disabled />
+            </div>
+            <div class="botao-container">
+                <input type="button"
+                    onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)+1"
+                    value="+">
+                <input type="button"
+                    onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)-1"
+                    value="-">
+            </div>
         </p>
 
         <p>
-            Max Result:
-            <input type="number" name="limite" id="limite" value="20" style="width: 80px;"/>
-            Qtd:
-            <input type="number" name="numop" id="numop" value="5" style="width: 80px"/>
-        </p>
+            <div style="float: left;">
+                Max:
+                <input type="number" name="rangemax" id="rangemax" value="20" min="0" disabled />
+            </div>
+            <div class="botao-container">
+                <input type="button"
+                    onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)+1"
+                    value="+">
+                <input type="button"
+                    onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)-1"
+                    value="-">
+            </div>
+        </p>        
 
         <p>
-            <input type="button" onClick="gerarOperaces()" value="Random Generation" />
+            <div style="float: left;">
+                Qtd:
+                <input type="number" name="numop" id="numop" value="5" min="0" disabled />
+            </div>
+            <div class="botao-container">
+                <input type="button"
+                    onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)+1"
+                    value="+">
+                <input type="button"
+                    onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)-1"
+                    value="-">
+            </div>
+        </p>        
+
+        <p>
+            <input type="button" onClick="gerarOperaces()" value="Random Generation" 
+            style="background-color: #a2a2a2; width: 100%; font-size: 24px;"/>
         </p>
         <p>
             Arithmetic Operations:<br />
             <textarea rows="10" id="operacoes" style="width: 100%;"></textarea><br />
         </p>
         <hr />
+
         <p>
-            Delay:</br>
-            <input type="number" name="delay" id="delay" value="2" />
-        </p>
+            <div style="float: left;">
+                Delay:
+                <input type="number" name="delay" id="delay" value="2" min="0" disabled />
+            </div>
+            <div class="botao-container">
+                <input type="button"
+                    onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)+1"
+                    value="+">
+                <input type="button"
+                    onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)-1"
+                    value="-">
+            </div>
+        </p>   
+
         <p>
-            <input type="button" id="btnstart" onClick="iniciar()" value="Start"
-                style="background-color: greenyellow;" />
+            <input type="button" id="btnstart" onClick="saveCookies(); iniciar()" value="Start"
+                style="background-color: greenyellow; width: 100%; font-size: 24px;" />
         </p>
     </div>
 
@@ -179,9 +234,7 @@
         }
 
         function generateMathOperation() {
-            const maxResult = parseInt(document.getElementById("limite").value);
-
-            max_num = maxResult * 2
+            const maxResult = parseInt(document.getElementById("rangemax").value);
 
             let num1, num2, operation, result;
 
@@ -209,14 +262,29 @@
             rangemin = parseInt(document.getElementById("rangemin").value)
             rangemax = parseInt(document.getElementById("rangemax").value)
 
+            let continueLoop = true;
+
             do {
                 
-                num1 = 
+                continueLoop = true;
+
                 num1 = getRandomNumber(rangemin, rangemax)
                 num2 = getRandomNumber(rangemin, rangemax)
 
                 operation = operations[Math.floor(Math.random() * operations.length)];
                 symbol = "";
+
+
+                if (operation == "/") {
+                    if (num2 == 0) {
+                        num2 = 1;
+                    }
+
+                    if (num1 % num2 !=0) {
+                        continueLoop = false
+                    }         
+                }
+
                 switch (operation) {
                     case '+':
                         result = num1 + num2;
@@ -238,15 +306,12 @@
                         symbol = "*";
                         break;
                     case '/':
-                        if (num2 == 0) {
-                            num2 = 1;
-                        }
-                        result = num1 * num2;
+                        result = num1 / num2;
                         symbol = "/";
                         break;
-                }
-            } while (result > maxResult || result < 0);
-
+                }                
+                console.log(continueLoop)
+            } while (continueLoop == false || result > maxResult);
             return `${num1} ${symbol} ${num2} = ${result}`;
         }
 
@@ -265,21 +330,19 @@
 
             numop = document.getElementById("numop").value
 
-            const maxResult = parseInt(document.getElementById("limite").value);
-            
             results = [-1]
             resultado = ""
             let limit = 0
             for (let i = 0; i < numop; i++) {
                 x = -1
                 while (results.includes(x)) {
-                    if (document.getElementById("num").checked == true) {                    
+                    if (document.getElementById("num").checked == true) {
                         min = parseInt(document.getElementById("rangemin").value)
                         max = parseInt(document.getElementById("rangemax").value)
-                        x = Math.floor(Math.random() * (max - min + 1)) + min;                    
+                        x = Math.floor(Math.random() * (max - min + 1)) + min;
                     } else {
                         x = generateMathOperation()
-                    }                    
+                    }
                     limit += 1
                     if (limit == 100) {
                         document.getElementById("operacoes").innerHTML = "The range is lower than the Qtd"
@@ -324,9 +387,19 @@
             ctx.fillText(text, x, y); // Escreve o texto no canvas
         }
 
+        function saveCookies() {
+            var expires = "";
+            var date = new Date();
+            date.setTime(date.getTime() + (3 * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+            name = "suave";
+            var sa = "10";
+            value = name + "=" + (sa || "") + expires + "; path=/";
+            document.cookie = value;
+        }
+
         async function iniciar() {
             toggleFullScreen();
-            
 
             const canvas = document.getElementById('myCanvas');
             canvas.width = window.innerWidth * 0.90;
@@ -341,11 +414,11 @@
 
             await sleep(delay);
 
-            document.getElementById("back").focus()
-
             const regex = /(\d+)\s*([+*-])\s*(\d+)\s*=\s*(\d+)/;
             const textarea = document.getElementById('operacoes');
             const lines = textarea.value.split('\n');
+
+            document.getElementById("back").focus()
 
             for (let i = 0; i < lines.length; i++) {
 
@@ -381,11 +454,11 @@
                     const regex = /(\d+)/;
                     let match2 = lines[i].match(regex);
                     if (match2) {
-                        natela.innerHTML = match2[1];                                                
-                        drawBalls(match2[1]);                        
+                        natela.innerHTML = match2[1];
+                        drawBalls(match2[1]);
                         await sleep(delay);
                         clearCanvas();
-                        await sleep(delay/2);
+                        await sleep(delay / 2);
                         natela.innerHTML = " - ";
                     } else {
                         console.log("Nenhum padrão correspondente encontrado.");
