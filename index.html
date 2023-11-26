@@ -42,21 +42,14 @@
         padding: 0px;
     }
 
-    /* input[type=button] {
-        font-size: 18px;
-        text-align: center;
-        width: 100%;
-        padding: 10px;
-    } */
-
     input[type=number] {
         font-size: 24px;
         text-align: center;
-        width: 60px;        
+        width: 60px;
     }
 
     .botao-container input[type=button] {
-        padding:2px;
+        padding: 2px;
         width: 30px;
         height: 30px;
         text-align: center;
@@ -64,6 +57,20 @@
         margin-left: 10px;
     }
 
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(2);
+        /* IE */
+        -moz-transform: scale(2);
+        /* FF */
+        -webkit-transform: scale(2);
+        /* Safari and Chrome */
+        -o-transform: scale(2);
+        /* Opera */
+        transform: scale(2);
+        padding: 10px;
+        margin: 10px
+    }
 </style>
 
 <body onload="document.getElementById('btnstart').focus()">
@@ -72,14 +79,13 @@
 
         <p id="natela">.</p>
         <p>
-            <input type="button" id="back" onClick="window.location.reload(true);" value="Back" 
-            style="width: 100%; font-size: 24px;"
-            />
+            <input type="button" id="back" onClick="window.location.reload(true);" value="Back"
+                style="width: 100%; font-size: 24px;" />
         </p>
     </div>
 
     <div id="config">
-        <p>
+        <p style="font-size: 24px">
             Operations Type:<br />
             <label onclick="disableNum()" style="vertical-align: middle;">
                 <input type="checkbox" id="mul" value="*" checked>*
@@ -103,53 +109,53 @@
         </p>
 
         <p>
-            <div style="float: left;">
-                Min:
-                <input type="number" name="rangemin" id="rangemin" value="1" min="0" disabled />
-            </div>
-            <div class="botao-container">
-                <input type="button"
-                    onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)+1"
-                    value="+">
-                <input type="button"
-                    onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)-1"
-                    value="-">
-            </div>
+        <div style="float: left;">
+            Min:
+            <input type="number" name="rangemin" id="rangemin" value="1" min="0" disabled />
+        </div>
+        <div class="botao-container">
+            <input type="button"
+                onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)+1"
+                value="+">
+            <input type="button"
+                onclick="document.getElementById('rangemin').value = parseInt(document.getElementById('rangemin').value)-1"
+                value="-">
+        </div>
         </p>
 
         <p>
-            <div style="float: left;">
-                Max:
-                <input type="number" name="rangemax" id="rangemax" value="20" min="0" disabled />
-            </div>
-            <div class="botao-container">
-                <input type="button"
-                    onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)+1"
-                    value="+">
-                <input type="button"
-                    onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)-1"
-                    value="-">
-            </div>
-        </p>        
+        <div style="float: left;">
+            Max:
+            <input type="number" name="rangemax" id="rangemax" value="20" min="0" disabled />
+        </div>
+        <div class="botao-container">
+            <input type="button"
+                onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)+1"
+                value="+">
+            <input type="button"
+                onclick="document.getElementById('rangemax').value = parseInt(document.getElementById('rangemax').value)-1"
+                value="-">
+        </div>
+        </p>
 
         <p>
-            <div style="float: left;">
-                Qtd:
-                <input type="number" name="numop" id="numop" value="5" min="0" disabled />
-            </div>
-            <div class="botao-container">
-                <input type="button"
-                    onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)+1"
-                    value="+">
-                <input type="button"
-                    onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)-1"
-                    value="-">
-            </div>
-        </p>        
+        <div style="float: left;">
+            Qtd:
+            <input type="number" name="numop" id="numop" value="5" min="0" disabled />
+        </div>
+        <div class="botao-container">
+            <input type="button"
+                onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)+1"
+                value="+">
+            <input type="button"
+                onclick="document.getElementById('numop').value = parseInt(document.getElementById('numop').value)-1"
+                value="-">
+        </div>
+        </p>
 
         <p>
-            <input type="button" onClick="gerarOperaces()" value="Random Generation" 
-            style="background-color: #a2a2a2; width: 100%; font-size: 24px;"/>
+            <input type="button" onClick="gerarOperaces()" value="Random Generation"
+                style="background-color: #a2a2a2; width: 100%; font-size: 24px;" />
         </p>
         <p>
             Arithmetic Operations:<br />
@@ -158,19 +164,19 @@
         <hr />
 
         <p>
-            <div style="float: left;">
-                Delay:
-                <input type="number" name="delay" id="delay" value="2" min="0" disabled />
-            </div>
-            <div class="botao-container">
-                <input type="button"
-                    onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)+1"
-                    value="+">
-                <input type="button"
-                    onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)-1"
-                    value="-">
-            </div>
-        </p>   
+        <div style="float: left;">
+            Delay:
+            <input type="number" name="delay" id="delay" value="2" min="0" disabled />
+        </div>
+        <div class="botao-container">
+            <input type="button"
+                onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)+1"
+                value="+">
+            <input type="button"
+                onclick="document.getElementById('delay').value = parseInt(document.getElementById('delay').value)-1"
+                value="-">
+        </div>
+        </p>
 
         <p>
             <input type="button" id="btnstart" onClick="saveCookies(); iniciar()" value="Start"
@@ -266,7 +272,7 @@
             let continueLoop = true;
 
             do {
-                
+
                 continueLoop = true;
 
                 num1 = getRandomNumber(rangemin, rangemax)
@@ -281,9 +287,9 @@
                         num2 = 1;
                     }
 
-                    if (num1 % num2 !=0) {
+                    if (num1 % num2 != 0) {
                         continueLoop = false
-                    }         
+                    }
                 }
 
                 switch (operation) {
@@ -310,7 +316,7 @@
                         result = num1 / num2;
                         symbol = "/";
                         break;
-                }                
+                }
             } while (continueLoop == false || result > maxResult);
             return `${num1} ${symbol} ${num2} = ${result}`;
         }
@@ -494,7 +500,7 @@
             }
         }
 
-        function saveStatus(){
+        function saveStatus() {
             localStorage.setItem("mul", document.getElementById("mul").checked);
             localStorage.setItem("div", document.getElementById("div").checked);
             localStorage.setItem("sub", document.getElementById("sub").checked);
@@ -507,7 +513,7 @@
             localStorage.setItem("delay", document.getElementById("delay").value);
         }
 
-        function loadStatus(){
+        function loadStatus() {
             const mul = localStorage.getItem("mul");
             const div = localStorage.getItem("div");
             const sub = localStorage.getItem("sub");
@@ -518,43 +524,43 @@
             const numop = localStorage.getItem("numop");
             const delay = localStorage.getItem("delay");
 
-            
-            if (eval(mul)){
+
+            if (eval(mul)) {
                 document.getElementById("mul").checked = true
             } else {
                 document.getElementById("mul").checked = false
             }
 
-            if (eval(div)){
+            if (eval(div)) {
                 document.getElementById("div").checked = true
             } else {
                 document.getElementById("div").checked = false
             }
 
-            if (eval(sub)){
+            if (eval(sub)) {
                 document.getElementById("sub").checked = true
             } else {
                 document.getElementById("sub").checked = false
-            }            
+            }
 
-            if (eval(soma)){
+            if (eval(soma)) {
                 document.getElementById("soma").checked = true
             } else {
                 document.getElementById("soma").checked = false
             }
 
-            if (eval(num)){
+            if (eval(num)) {
                 document.getElementById("num").checked = true
             } else {
                 document.getElementById("num").checked = false
             }
-            
+
             if (rangemin) {
                 document.getElementById("rangemin").value = parseInt(rangemin)
             } else {
                 document.getElementById("rangemin").value = 1
             }
-            
+
             if (rangemax) {
                 document.getElementById("rangemax").value = parseInt(rangemax)
             } else {
@@ -574,9 +580,9 @@
             }
         }
 
-        gerarOperaces();
-
         loadStatus();
+
+        gerarOperaces();
     </script>
 </body>
 
