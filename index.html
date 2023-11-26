@@ -102,15 +102,24 @@
             <label onclick="disableNum()">
                 <input type="checkbox" id="div" value="/" checked>/
             </label>
-
+            <br/>
             <label onclick="disableOps()">
                 <input type="checkbox" id="num" value="n">Numbers
             </label>
+            <label onclick="enable('even')">
+                <input type="checkbox" id="even" value="n">Even
+            </label>
+            <label onclick="enable('odd')">
+                <input type="checkbox" id="odd" value="n">Odd
+            </label>
+            <label onclick="enable('pa')">
+                <input type="checkbox" id="pa" value="n">PA
+            </label>            
         </p>
 
         <p>
         <div style="float: left;">
-            Min:
+            <strong>Min:</strong>
             <input type="number" name="rangemin" id="rangemin" value="1" min="0" disabled />
         </div>
         <div class="botao-container">
@@ -125,7 +134,7 @@
 
         <p>
         <div style="float: left;">
-            Max:
+            <strong>Max:</strong>
             <input type="number" name="rangemax" id="rangemax" value="20" min="0" disabled />
         </div>
         <div class="botao-container">
@@ -140,7 +149,7 @@
 
         <p>
         <div style="float: left;">
-            Qtd:
+            <strong>Qtd:</strong>
             <input type="number" name="numop" id="numop" value="5" min="0" disabled />
         </div>
         <div class="botao-container">
@@ -186,6 +195,45 @@
 
 
     <script>
+
+        function enable(k) {
+            document.getElementById("mul").checked = false
+            document.getElementById("sub").checked = false
+            document.getElementById("div").checked = false
+            document.getElementById("soma").checked = false
+            document.getElementById("num").checked = false
+            
+            if (k=="even") {                
+                if (document.getElementById("even").checked) {
+                    document.getElementById("even").checked = true
+                } else {
+                    document.getElementById("even").checked = false
+                }
+                document.getElementById("odd").checked = false
+                document.getElementById("pa").checked = false
+            }
+
+            if (k=="odd") {                
+                if (document.getElementById("odd").checked) {
+                    document.getElementById("odd").checked = true
+                } else {
+                    document.getElementById("odd").checked = false
+                }
+                document.getElementById("even").checked = false                
+                document.getElementById("pa").checked = false
+            }
+
+            if (k=="pa") {                
+                if (document.getElementById("pa").checked) {
+                    document.getElementById("pa").checked = true
+                } else {
+                    document.getElementById("pa").checked = false
+                }
+                document.getElementById("even").checked = false                
+                document.getElementById("odd").checked = false
+            }            
+            gerarOperaces()
+        }
 
         function disableNum() {
             document.getElementById("num").checked = false
@@ -329,7 +377,10 @@
                 document.getElementById("sub").checked == false &&
                 document.getElementById("soma").checked == false &&
                 document.getElementById("div").checked == false &&
-                document.getElementById("num").checked == false
+                document.getElementById("num").checked == false &&
+                document.getElementById("even").checked == false &&
+                document.getElementById("odd").checked == false &&
+                document.getElementById("pa").checked == false
             ) {
                 document.getElementById("soma").checked = true
             }
@@ -339,13 +390,25 @@
             results = [-1]
             resultado = ""
             let limit = 0
+
+            min = parseInt(document.getElementById("rangemin").value)
+            max = parseInt(document.getElementById("rangemax").value)
+
             for (let i = 0; i < numop; i++) {
                 x = -1
                 while (results.includes(x)) {
-                    if (document.getElementById("num").checked == true) {
-                        min = parseInt(document.getElementById("rangemin").value)
-                        max = parseInt(document.getElementById("rangemax").value)
+                    if (document.getElementById("num").checked == true) {                        
                         x = Math.floor(Math.random() * (max - min + 1)) + min;
+                    } else if(document.getElementById("even").checked == true){
+                        do {
+                            x = Math.floor(Math.random() * (max - min + 1)) + min;
+                        } while(x % 2 != 0)
+                    } else if(document.getElementById("odd").checked == true){
+                        do {
+                            x = Math.floor(Math.random() * (max - min + 1)) + min;
+                        } while(x % 2 == 0)                        
+                    } else if(document.getElementById("pa").checked == true){
+                        x = min*(i+1)
                     } else {
                         x = generateMathOperation()
                     }
@@ -506,6 +569,9 @@
             localStorage.setItem("sub", document.getElementById("sub").checked);
             localStorage.setItem("soma", document.getElementById("soma").checked);
             localStorage.setItem("num", document.getElementById("num").checked);
+            localStorage.setItem("even", document.getElementById("even").checked);
+            localStorage.setItem("odd", document.getElementById("odd").checked);
+            localStorage.setItem("pa", document.getElementById("pa").checked);
 
             localStorage.setItem("rangemin", document.getElementById("rangemin").value);
             localStorage.setItem("rangemax", document.getElementById("rangemax").value);
@@ -523,7 +589,28 @@
             const rangemax = localStorage.getItem("rangemax");
             const numop = localStorage.getItem("numop");
             const delay = localStorage.getItem("delay");
+            const even = localStorage.getItem("even");
+            const odd = localStorage.getItem("odd");
+            const pa = localStorage.getItem("pa");
 
+
+            if (eval(even)) {
+                document.getElementById("even").checked = true
+            } else {
+                document.getElementById("even").checked = false
+            }
+
+            if (eval(pa)) {
+                document.getElementById("pa").checked = true
+            } else {
+                document.getElementById("pa").checked = false
+            }
+
+            if (eval(odd)) {
+                document.getElementById("odd").checked = true
+            } else {
+                document.getElementById("odd").checked = false
+            }            
 
             if (eval(mul)) {
                 document.getElementById("mul").checked = true
