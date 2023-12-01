@@ -535,6 +535,10 @@
                     }
                 }
             }
+            clearCanvas();
+            await sleep(delay);
+            document.getElementById("config").style.display = "block";
+            document.getElementById("mostrar").style.display = "none";            
         }
 
         function toggleFullScreen() {
