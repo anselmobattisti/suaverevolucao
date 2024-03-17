@@ -114,7 +114,15 @@
             </label>
             <label onclick="enable('pa')">
                 <input type="checkbox" id="pa" value="n">PA
-            </label>            
+            </label>
+            <br/>
+            <label onclick="enable('bigger')">
+                <input type="checkbox" id="bigger" value="n">>
+            </label>
+            <label onclick="enable('lower')">
+                <input type="checkbox" id="lower" value="n"><
+            </label>
+
         </p>
 
         <p>
@@ -203,6 +211,11 @@
             document.getElementById("soma").checked = false
             document.getElementById("num").checked = false
             
+            document.getElementById("even").checked = false
+
+            document.getElementById("bigger").checked = false
+            document.getElementById("lower").checked = false
+
             if (k=="even") {                
                 if (document.getElementById("even").checked) {
                     document.getElementById("even").checked = true
@@ -231,7 +244,26 @@
                 }
                 document.getElementById("even").checked = false                
                 document.getElementById("odd").checked = false
-            }            
+            }
+
+            if (k=="bigger") {                
+                document.getElementById("bigger").checked = true
+                if (document.getElementById("lower").checked) {
+                    document.getElementById("lower").checked = true
+                } else {
+                    document.getElementById("lower").checked = false
+                }                
+            }
+
+            if (k=="lower") {                
+                document.getElementById("lower").checked = true                
+                if (document.getElementById("bigger").checked) {
+                    document.getElementById("bigger").checked = true
+                } else {
+                    document.getElementById("bigger").checked = false
+                }                   
+            }
+            
             gerarOperaces()
         }
 
@@ -380,7 +412,9 @@
                 document.getElementById("num").checked == false &&
                 document.getElementById("even").checked == false &&
                 document.getElementById("odd").checked == false &&
-                document.getElementById("pa").checked == false
+                document.getElementById("pa").checked == false &&
+                document.getElementById("bigger").checked == false &&
+                document.getElementById("lower").checked == false
             ) {
                 document.getElementById("soma").checked = true
             }
@@ -409,6 +443,28 @@
                         } while(x % 2 == 0)                        
                     } else if(document.getElementById("pa").checked == true){
                         x = min*(i+1)
+                    } else if(document.getElementById("bigger").checked == true){
+                        a = Math.floor(Math.random() * (max - min + 1)) + min;
+                        b = Math.floor(Math.random() * (max - min + 1)) + min;
+                        if (a == b){
+                            b += 1;
+                        }
+                        if (a > b){
+                            x = a+" > "+b
+                        } else {
+                            x = b+" > "+a
+                        }                        
+                    } else if(document.getElementById("lower").checked == true){
+                        a = Math.floor(Math.random() * (max - min + 1)) + min;
+                        b = Math.floor(Math.random() * (max - min + 1)) + min;
+                        if (a == b){
+                            b += 1;
+                        }
+                        if (a < b){
+                            x = a+" < "+b
+                        } else {
+                            x = b+" < "+a
+                        }
                     } else {
                         x = generateMathOperation()
                     }
@@ -513,6 +569,11 @@
                     natela.innerHTML = num2;
                     drawBalls(num2);
                     await sleep(delay);
+
+                    if (operator == "<" || operator == ">" ) {
+                        return
+                    }
+
                     natela.innerHTML = "=";
                     drawText("=");
                     await sleep(delay);
@@ -576,11 +637,15 @@
             localStorage.setItem("even", document.getElementById("even").checked);
             localStorage.setItem("odd", document.getElementById("odd").checked);
             localStorage.setItem("pa", document.getElementById("pa").checked);
+            localStorage.setItem("bigger", document.getElementById("bigger").checked);
+            localStorage.setItem("lower", document.getElementById("lower").checked);
 
             localStorage.setItem("rangemin", document.getElementById("rangemin").value);
             localStorage.setItem("rangemax", document.getElementById("rangemax").value);
             localStorage.setItem("numop", document.getElementById("numop").value);
             localStorage.setItem("delay", document.getElementById("delay").value);
+
+            
         }
 
         function loadStatus() {
@@ -596,6 +661,8 @@
             const even = localStorage.getItem("even");
             const odd = localStorage.getItem("odd");
             const pa = localStorage.getItem("pa");
+            const bigger = localStorage.getItem("bigger");
+            const lower = localStorage.getItem("lower");
 
 
             if (eval(even)) {
@@ -645,6 +712,13 @@
             } else {
                 document.getElementById("num").checked = false
             }
+
+            if (eval(bigger)) {
+                document.getElementById("bigger").checked = true
+            } else {
+                document.getElementById("bigger").checked = false
+            }
+
 
             if (rangemin) {
                 document.getElementById("rangemin").value = parseInt(rangemin)

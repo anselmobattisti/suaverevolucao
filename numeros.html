@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operação Matemática Aleatória</title>
+    <script>
+        function generateRandomOperation() {
+            const operations = ["+", "-", "*", "/", "g"];
+            const op = operations[Math.floor(Math.random() * operations.length)];
+            let a, b;
+
+            switch(op) {
+                case "+":
+                case "-":
+                    a = Math.floor(Math.random() * 80) + 1;
+                    b = Math.floor(Math.random() * 80) + 1;
+                    break;
+                case "*":
+                    a = Math.floor(Math.random() * 9) + 1;  // Limit to smaller numbers for multiplication
+                    b = Math.floor(Math.random() * 9) + 1;
+                    break;
+                case "/":
+                    b = Math.floor(Math.random() * 9) + 1;
+                    a = b * (Math.floor(Math.random() * 10) + 1);  // Ensure divisibility
+                    break;
+                case "g":
+                    a = Math.floor(Math.random() * 80) + 1;
+                    b = Math.floor(Math.random() * 80) + 1;
+                    let operation = ""                    
+                    if (a > b) {
+                        operation = `${a} > ${b}`;
+                    }
+
+                    if (a < b) {
+                        operation = `${a} < ${b}`;
+                    }
+
+                    if (a == b) {
+                        operation = `${a} = ${b}`;
+                    }
+
+                    drawOperation(operation);
+                    return
+            }
+            
+            result = eval(`${a} ${op} ${b}`);
+            const operation = `${a} ${op} ${b} = ${result}`;            
+            drawOperation(operation);
+        }
+
+        function drawOperation(operation) {
+            const canvas = document.getElementById('operationCanvas');
+            if (canvas.getContext) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear previous operation                
+	        ctx.textAlign = "center";
+                const centerY = canvas.height / 2 + ctx.measureText(operation).actualBoundingBoxAscent / 2;
+                ctx.font = '120px Arial';
+                ctx.fillText(operation, canvas.width / 2, centerY);
+            }
+        }
+    </script>
+</head>
+<body onload="generateRandomOperation(); generateRandomOperation()">
+    <p style="text-align:center">
+	    <canvas id="operationCanvas" width="1027" height="700" style="border:1px solid #000000;">
+		Seu navegador não suporta o elemento canvas.
+	    </canvas>
+    </p>    
+
+    <p style="text-align:center">
+	    <button onclick="generateRandomOperation()">Gerar Operação Matemática</button>
+    </p>
+    
+</body>
+</html>
